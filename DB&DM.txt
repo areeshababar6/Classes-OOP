@@ -1,0 +1,127 @@
+#include <iostream>
+
+using namespace std;
+
+class DB;
+
+class DM
+{
+private:
+	int m;
+	double cm;
+public:
+	DM(int = 3, double = 2);
+	void set(int , double);
+	void display();
+	void add(DB&);
+};
+
+class DB
+{
+private:
+	int f;
+	double in;
+public:
+	DB(int = 3, double = 2);
+	void set(int, double);
+	void display();
+	int getf()
+	{
+		return f;
+	}
+	double getIn()
+	{
+		return in;
+	}
+};
+void DB::display()
+{
+	cout << "\n Distance is feet and inches: " << endl;
+	cout << " Feet: " << f << endl;
+	cout << " Inches: " << in << endl;
+}
+DB::DB(int feet, double inches)
+{
+	f = feet; in = inches;
+}
+void DB::set(int feet, double inches)
+{
+	f = feet; in = inches;
+}
+void DM::add(DB& d1)
+{
+	int option;
+
+	cout << "\n 1. Meters and centimeters \n 2. Feet and inches " << endl;
+	cout << " Enter according to following:";
+	cin >> option;
+
+	if (option == 1)
+	{
+		double ftoin = d1.getf() / 0.083;
+		double tin = ftoin + d1.getIn();
+		double intocm = tin / 0.393;
+		double tcm = 100 * m + cm;
+		double sum = tcm + intocm;
+
+		m = sum / 100;
+		cm = sum - (m * 100);
+		display();
+	}
+	else if (option == 2)
+	{
+		double mtocm = m * 100;
+		double tcm = mtocm + cm;
+		double cmtoin = tcm * 0.393;
+		double ftoin = d1.getf() / 0.083;
+		double tin = ftoin + d1.getIn();
+		double sum = tin + cmtoin;
+
+		int f = sum * 0.083;
+		double in = sum - (f / 0.083);
+		d1.set(f, in);
+		d1.display();
+	}
+	else
+	{
+		cout << " Incorrect input!" << endl;
+	}
+}
+void DM::display()
+{
+	cout << "\n Distance is meter and centimeters: " << endl;
+	cout << " Meters: " << m << endl;
+	cout << " Centimeters: " << cm << endl;
+}
+DM::DM(int feet, double inches)
+{
+	m = feet; 
+	cm = inches;
+}
+void DM::set(int feet, double inches)
+{
+	m = feet; cm = inches;
+}
+int main()
+{
+	DB d1;
+	DM d2;
+	double n2;
+	int n1;
+
+	cout << " Enter value in feet: ";
+	cin >> n1;
+	cout << " Enter value in inches: ";
+	cin >> n2;
+	d1.set(n1, n2);
+
+	cout << " Enter value in meters: ";
+	cin >> n1;
+	cout << " Enter value in centimeters: ";
+	cin >> n2;
+	d2.set(n1, n2);
+
+	d2.add(d1);
+
+	return 0;
+}
